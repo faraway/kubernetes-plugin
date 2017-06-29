@@ -595,6 +595,8 @@ public class KubernetesCloud extends Cloud {
 
                     r.add(new NodeProvisioner.PlannedNode(t.getDisplayName(), Computer.threadPoolForRemoting
                                 .submit(new ProvisioningCallback(this, t, label)), 1));
+                    LOGGER.log(Level.INFO, "Provisioning one node for " + t.getDisplayName() + ", taking a nap...");
+                    Thread.sleep(30000);
                 }
                 if (r.size() > 0) {
                     // Already found a matching template
