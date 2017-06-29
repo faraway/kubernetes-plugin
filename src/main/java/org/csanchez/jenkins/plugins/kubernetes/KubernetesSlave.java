@@ -151,6 +151,7 @@ public class KubernetesSlave extends AbstractCloudSlave {
             }
             KubernetesClient client = ((KubernetesCloud) cloud).connect();
             PodResource<Pod, DoneablePod> pods = client.pods().inNamespace(namespace).withName(name);
+            LOGGER.log(Level.INFO, "pods to delete {0}", pods);
             pods.delete();
             String msg = String.format("Terminated Kubernetes instance for slave %s", name);
             LOGGER.log(Level.INFO, msg);

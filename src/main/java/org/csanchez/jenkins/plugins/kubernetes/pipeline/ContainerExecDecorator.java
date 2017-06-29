@@ -107,12 +107,14 @@ public class ContainerExecDecorator extends LauncherDecorator implements Seriali
                         .usingListener(new ExecListener() {
                             @Override
                             public void onOpen(Response response) {
+                                LOGGER.log(Level.FINE, "Watch onOpen");
                                 alive.set(true);
                                 started.countDown();
                             }
 
                             @Override
                             public void onFailure(Throwable t, Response response) {
+                                LOGGER.log(Level.FINE, "Watch onFailure...", t);
                                 alive.set(false);
                                 t.printStackTrace(launcher.getListener().getLogger());
                                 started.countDown();
@@ -121,6 +123,7 @@ public class ContainerExecDecorator extends LauncherDecorator implements Seriali
 
                             @Override
                             public void onClose(int i, String s) {
+                                LOGGER.log(Level.FINE, "Watch onClose:"+s);
                                 alive.set(false);
                                 started.countDown();
                                 finished.countDown();
@@ -281,7 +284,7 @@ public class ContainerExecDecorator extends LauncherDecorator implements Seriali
         try {
             latch.await();
         } catch (InterruptedException e) {
-            //ignore
+            LOGGER.log(Level.SEVERE, "Watch wait failed...", e.getMessage());
         }
     }
 
